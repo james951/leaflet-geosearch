@@ -29,7 +29,14 @@ export default class Provider extends BaseProvider {
   }
 
   parse({ data }) {
-    return data.map(r => ({
+    let keyword = this.options.params ? this.options.params.keyword : null;
+    let filteredData = data;
+
+    if (keyword) {
+      filteredData = data.filter(x => x.display_name.includes(keyword));
+    }
+
+    return filteredData.map(r => ({
       x: r.lon,
       y: r.lat,
       label: r.display_name,
